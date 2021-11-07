@@ -10,7 +10,8 @@ function fetchApi(username = "Avin008") {
       console.log(data.avatar_url);
       avatar_img.setAttribute("src", data.avatar_url);
       userName.innerText = data.name;
-      repoCount.innerText = `No of Repos: ${data.public_repos}`;
+      repoCount.innerText = `No. of Repos: ${data.public_repos}`;
+      repoCount.style.color = "purple";
 
       fetch(data.repos_url)
         .then((repoData) => repoData.json())
