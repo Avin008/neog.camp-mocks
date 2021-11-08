@@ -1,36 +1,62 @@
+const searchBox = document.querySelector("#search-user");
+const searchBtn = document.querySelector("#search-btn");
 const avatar_img = document.querySelector("#avatar-image");
 const userName = document.querySelector("#user-name");
 const repoCount = document.querySelector("#no-of-repos");
 const ul = document.querySelector("#ul");
+const display = document.querySelector(".display");
+const showErr = document.querySelector("#show-err");
 
 function fetchApi(username = "Avin008") {
   fetch(`https://api.github.com/users/${username}`)
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data.avatar_url);
-      avatar_img.setAttribute("src", data.avatar_url);
-      userName.innerText = data.name;
-      repoCount.innerText = `No. of Repos: ${data.public_repos}`;
-      repoCount.style.color = "purple";
+    .then((res) => {
+      //checking for response status
 
-      fetch(data.repos_url)
-        .then((repoData) => repoData.json())
-        .then((repos) => {
-          repos.forEach((list) => {
-            console.log(list.name);
-            createElement("li", ul, list.name);
-            return repos;
-          });
-          return data;
-        });
+      if (res.status === 404) {
+        display.style.display = "none";
+        showErr.innerText = "User not found";
+        showErr.style.color = "red";
+      } else {
+        display.style.display = "block";
+        showErr.innerText = "";
+      }
+      return res.json();
     })
-    .catch((err) => console.log("something went wrong"));
-}
+    .then((data) => {
+      //pushing user data into their elements
 
-function createElement(elName, parent, value) {
-  let element = document.createElement(elName);
-  parent.appendChild(element);
-  element.innerText = value;
+      avatar_img.src = data.avatar_url;
+      userName.innerText = data.name;
+      repoCount.innerText = `Total No. of Repos: ${data.public_repos}`;
+      repoCount.style.color = "purple";
+      return data;
+    })
+    .then((repos) => {
+      //pushing repos list
+
+      ul.innerHTML = "";
+      fetch(repos.repos_url)
+        .then((res) => res.json())
+        .then((rep) => {
+          rep.forEach((repos) => {
+            ul.innerHTML += `<li>${repos.name}</li>`;
+          });
+          return rep;
+        })
+        .catch((err) => err);
+      return repos;
+    })
+    .catch((err) => {
+      console.log("something went wrong");
+    });
 }
 
 fetchApi();
+
+searchBtn.addEventListener("click", function () {
+  if (searchBox.value) {
+    fetchApi(searchBox.value);
+  } else {
+    fetchApi();
+  }
+});

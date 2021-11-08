@@ -19,3 +19,26 @@ li {
   height: 150px;
   border-radius: 100%;
 }
+
+.search-bar {
+  margin: 1rem;
+}
+
+#search-user {
+  width: 20%;
+  height: 1.5rem;
+  padding: 0.3rem;
+}
+
+#search-btn {
+  border-style: none;
+  padding: 0.5rem;
+  background-color: purple;
+  color: white;
+  display: block;
+  margin: 0.8rem auto;
+}
+
+#heading {
+  color: purple;
+}

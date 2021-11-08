@@ -9,10 +9,23 @@
   </head>
   <body>
     <div class="container">
-      <img src="" alt="" id="avatar-image" />
-      <h2 id="user-name"></h2>
-      <h3 id="no-of-repos"></h3>
-      <ul id="ul"></ul>
+      <h2 id="heading">Github Profile Finder</h2>
+      <div class="search-bar">
+        <input
+          type="text"
+          id="search-user"
+          placeholder="Enter Github Username"
+        />
+        <button id="search-btn">Search</button>
+      </div>
+      <hr />
+      <div class="display">
+        <img src="" alt="" id="avatar-image" />
+        <h2 id="user-name"></h2>
+        <h3 id="no-of-repos"></h3>
+        <ul id="ul"></ul>
+      </div>
+      <h2 id="show-err"></h2>
     </div>
     <script src="/mock-1/script.js"></script>
   </body>
